@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  postgres:
+    image: "postgres:13.2"
+    environment:
+      POSTGRES_USER: "pgtypes"
+      POSTGRES_PASSWORD: "pgtypes"
+      POSTGRES_DB: "pgtypes"
+    ports:
+      - "127.0.0.1:5432:5432"
