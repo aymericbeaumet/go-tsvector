@@ -4,19 +4,14 @@
 [![github](https://img.shields.io/github/issues/aymericbeaumet/go-tsvector?style=flat-square&logo=github)](https://github.com/aymericbeaumet/go-tsvector/issues)
 [![Go.Dev reference](https://img.shields.io/badge/go.dev-reference-blue?style=flat-square&logo=go&logoColor=white)](https://pkg.go.dev/github.com/aymericbeaumet/go-tsvector)
 
-Go
-[`tsvector`](https://www.postgresql.org/docs/current/datatype-textsearch.html#DATATYPE-TSVECTOR)
-Postgres type definition. Tested to work with
-[`database/sql`](https://golang.org/pkg/database/sql/) and
-[GORM](https://gorm.io/). Compatible with any driver respecting the
-[`Scanner`](https://golang.org/pkg/database/sql/#Scanner) and
-[`Valuer`](https://golang.org/pkg/database/sql/driver/#Valuer) interfaces.
-
-## Import
-
-```go
-import "github.com/aymericbeaumet/go-tsvector"
-```
+- Postgres
+  [`tsvector`](https://www.postgresql.org/docs/current/datatype-textsearch.html#DATATYPE-TSVECTOR)
+  type definition for Go
+- Tested to work with [`database/sql`](https://golang.org/pkg/database/sql/) and
+  [GORM](https://gorm.io/)
+- Compatible with any driver respecting the
+  [`Scanner`](https://golang.org/pkg/database/sql/#Scanner) and
+  [`Valuer`](https://golang.org/pkg/database/sql/driver/#Valuer) interfaces.
 
 ## Examples
 
