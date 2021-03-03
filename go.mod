@@ -1,4 +1,4 @@
-module github.com/aymericbeaumet/go-pgtypes
+module github.com/aymericbeaumet/go-tsvector
 
 go 1.16
 

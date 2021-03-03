@@ -1,4 +1,4 @@
-package pgtypes
+package tsvector
 
 import (
 	"context"

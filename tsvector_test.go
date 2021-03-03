@@ -1,21 +1,49 @@
-package pgtypes_test
+package tsvector_test
 
 import (
+	"database/sql"
 	"testing"
 
-	"github.com/aymericbeaumet/go-pgtypes"
+	"github.com/aymericbeaumet/go-tsvector"
 	"github.com/go-test/deep"
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
+var sqlDB *sql.DB
+var gormDB *gorm.DB
+
+func init() {
+	dsn := "host=localhost user=tsvector password=tsvector dbname=tsvector sslmode=disable"
+
+	if db, err := sql.Open("postgres", dsn); err != nil {
+		panic(err)
+	} else {
+		sqlDB = db
+	}
+
+	if db, err := gorm.Open(postgres.New(postgres.Config{Conn: sqlDB}), &gorm.Config{}); err != nil {
+		panic(err)
+	} else {
+		gormDB = db
+	}
+
+	if err := gormDB.AutoMigrate(
+		&tsvectorTestModel{},
+	); err != nil {
+		panic(err)
+	}
+}
+
 type tsvectorTestModel struct {
-	ID      uint             `gorm:"primaryKey"`
-	Text    string           `gorm:"not null"`
-	TextTSV pgtypes.TSVector `gorm:"not null"`
+	ID      uint              `gorm:"primaryKey"`
+	Text    string            `gorm:"not null"`
+	TextTSV tsvector.TSVector `gorm:"not null"`
 }
 
 func TestTSVectorSQLCast(t *testing.T) {
-	var tsvector pgtypes.TSVector
+	var tsvector tsvector.TSVector
 	err := sqlDB.
 		QueryRow("SELECT $1::tsvector", "The quick brown fox jumps over the lazy dog").
 		Scan(&tsvector)
@@ -40,7 +68,7 @@ func TestTSVectorSQLCast(t *testing.T) {
 }
 
 func TestTSVectorSQLScan(t *testing.T) {
-	var tsvector pgtypes.TSVector
+	var tsvector tsvector.TSVector
 	err := sqlDB.
 		QueryRow("SELECT to_tsvector($1)", "I am a test: the quick brown fox jumps over the lazy fox!").
 		Scan(&tsvector)
@@ -66,7 +94,7 @@ func TestTSVectorGORMCreateFind(t *testing.T) {
 
 	in := tsvectorTestModel{
 		Text:    text,
-		TextTSV: pgtypes.ToTSVector(text),
+		TextTSV: tsvector.ToTSVector(text),
 	}
 	res := gormDB.Create(&in)
 	if res.Error != nil {
